@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">按钮</button>
+    <script>
+        sessionStorage.setItem('key1', '123123123')
+        // alert(sessionStorage.getItem('key1'))
+        console.log(sessionStorage.getItem('key1'))
+        document.querySelector('#btn').onclick = function () {
+            window.open('a.html')
+        }
+    </script>
+</body>
+</html>

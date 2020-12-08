@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+   class Todo {
+       constructor(time,count){
+           this.time = time;
+           this.count=count;
+       }
+       fn1(){
+           setTimeout(() =>{
+               console.log('fn1');
+           },3000)
+       }
+       fn2(){
+           setTimeout(() =>{
+               console.log('fn2');
+           },2000)
+       }
+       fn3(){
+           setTimeout(() =>{
+               console.log('fn3');
+           },1000)
+       }
+       runTask(taskDef) {
+           // 创建迭代器，让它在别处可用
+           let task = taskDef();
+           // 启动任务
+           let result = task.next();
+           // 递归使用函数来保持对 next() 的调用
+           function step() {
+               // 如果还有更多要做的
+               if (!result.done) {
+                   result = task.next(result.value);
+                   step();
+               }
+           }
+           // 开始处理过程
+           step();
+       }
+   }
+   let todo = new Todo();
+
+   function *todoFn() {
+       yield todo.fn1();
+       yield todo.fn2();
+       yield todo.fn3();
+   }
+
+   todo.runTask(todoFn);
+</script>
+</body>
+</html>

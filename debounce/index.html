@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+function debounce(fn, delay) {
+  // 维护一个 timer
+  let timer = null;
+
+  return function() {
+    // 通过 ‘this’ 和 ‘arguments’ 获取函数的作用域和变量
+    let context = this;
+    let args = arguments;
+    console.log('args', args)
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      fn.apply(context, args);
+    }, delay);
+  }
+}
+window.onresize = debounce(function () {
+  console.log(123)
+},2000)
+</script>
+</body>
+</html>

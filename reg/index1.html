@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="hh">
+
+    <button @click="getThis">{{num}}</button>
+    <button id="btn">按钮</button>
+</div>
+<script>
+    let reg = /.*\//;
+    let path = '../../../file/name.sadf.js'
+    let handlePath = path.replace(reg, '')
+    console.log(handlePath);
+    var vm = new Vue({
+        el: '#hh',
+        data() {
+            return {
+                num: '<h1></h1>'
+            }
+        },
+        methods: {
+            getThis: function () {
+                console.log(this.num += 1);
+            }
+        }
+    });
+    console.log(vm);
+    let res = Promise.resolve('dsfdsf')
+    res.then(res => {
+        console.log('res', res);
+    }).catch(err=>{
+        console.log(err);
+    })
+    document.querySelector('#btn').onclick = function () {
+        console.log(vm.num += 1);
+    }
+</script>
+</body>
+</html>

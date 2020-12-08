@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box{
+            /*background-color: rgba(76, 140, 64, 0.94);*/
+            background-color: #38b2ac;
+            width: 500px;
+            height: 200px;
+        }
+    </style>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form">
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>选择</th>
+        <th>昵称</th>
+        <th>加入时间</th>
+        <th>签名</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <input type="checkbox" name=""  title="写作" checked>
+        </td>
+        <td>贤心</td>
+        <td>2016-11-29</td>
+        <td>人生就像是一场修行</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="checkbox">
+        </td>
+        <td>许闲心</td>
+        <td>2016-11-28</td>
+        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+    </tr>
+    </tbody>
+</table>
+</form>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+    });
+</script>
+
+</body>
+</html>

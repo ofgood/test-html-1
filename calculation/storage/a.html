@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <Button id="delBtn">删除key1</Button>
+    <script>
+        const key1 =  sessionStorage.getItem('key1')
+        console.log('key1',key1)
+        document.querySelector('#delBtn').onclick = function () {
+            sessionStorage.removeItem('key1')
+            console.log('key1',sessionStorage.getItem('key1'))
+        }
+    </script>
+</body>
+</html>
