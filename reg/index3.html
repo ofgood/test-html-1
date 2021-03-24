@@ -1,15 +1,31 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
-<script>
 
-</script>
+<body>
+    <input type="text" id="input">
+    <script>
+        function num(obj) {
+            // obj.value = obj.value.replace(/^0*(0\.|[1-9])/, '');//解决 粘贴不生效
+            obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是.字
+            obj.value = obj.value.replace(/^[0]/g, "");//验证第一个字符是0字
+            obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个, 清除多余的
+            obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+            // obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+            // return obj.value
+        }
+        document.querySelector('#input').onkeyup = function (e) {
+            console.log(num(e.target))
+        }
+    </script>
 </body>
+
 </html>

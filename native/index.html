@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            text-align: center;
+        }
+        .btn{
+            width: 200px;
+            margin: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <button data="h5CallNative" class="btn">获取原生数据</button>
+        <button data="img" class="btn">相册</button>
+        <button data="camera" class="btn">相机</button>
+    </div>
+   <img id="img1" style="width:90%" alt="图片">
+   <img id="img2" style="width:90%" alt="图片">
+    <script>
+        // 判断设备
+        const platform = (() => {
+            let ua = navigator.userAgent
+            return {
+                isIOS: !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),     //ios终端
+                isAndroid: ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1, //android终端
+            }
+        })();
+        function getImgByNative (param){
+            return new Promise((resolve, reject) => {
+                if (platform.isIos) {
+                    window.webkit && window.webkit.messageHandlers.choosePicture.postMessage('1');
+                    window.getPicture = res => {
+                        try {
+                            const result = JSON.parse(Base64.decode(res));
+                            console.log(result);
+                            resolve({
+                                file: `data:image/jpeg;base64,${result.imageBase64}`,
+                                name: 'pic.jpeg',
+                                size: result.imageBit
+                            })
+                        } catch (e) {
+                            reject(e);
+                        }
+                    }
+                } else if (platform.isAndroid) {
+                    let upLoaderInput = document.querySelector('#mvUpLoaderInput');
+                    if (!upLoaderInput) {
+                        let input = document.createElement('input');
+                        input.type = 'file';
+                        input.id = 'mvUpLoaderInput';
+                        document.body.appendChild(input);
+                        upLoaderInput = document.querySelector('#mvUpLoaderInput');
+                    }
+                    if (param === 'camera') {
+                        upLoaderInput.accept = "image/*";
+                        upLoaderInput.capture = "camera";
+                    } else {
+                        upLoaderInput.accept = "image/*";
+                        upLoaderInput.removeAttribute('capture');
+                    }
+                    upLoaderInput.style.display = 'none';
+                    upLoaderInput.click();
+                    upLoaderInput.onchange = (e) => {
+                        const file = e.target.files[0];
+                        const oReader = new FileReader();
+                        oReader.readAsDataURL(file);
+                        oReader.onload = (ev) => {
+                            resolve({
+                                file: ev.currentTarget.result,
+                                name: file.name,
+                                size: file.size
+                            })
+                        }
+                    }
+                }
+            })
+        }
+
+        //原生调用
+        function callNative(param) {
+            alert(param)
+        }
+        //获取原生的数据
+        function getDataFromNative(params, callback) {
+            if (platform.isIos) {
+                window.webkit && window.webkit.messageHandlers.getNativeData.postMessage(params);
+                window.getNativeData = res => {
+                    callback && callback(res || '');
+                }
+            } else if (platform.isAndroid) {
+                let res = window.jiababa.getNativeData(params);
+                callback && callback(res || '');
+            }
+        }
+        // 调用
+        getDataFromNative('someData', (res) => {
+            // 获取到原生数据
+            console.log(res);
+        })
+        const btns = document.querySelectorAll('.btn');
+        const img1 = document.querySelector('#img1');
+        const img2 = document.querySelector('#img2');
+        btns.forEach(item => {
+            item.addEventListener('click', function (e) {
+                const { target } = e;
+                const data = target.attributes["data"].nodeValue
+                if (data === 'img') {
+                    //相册
+                    getImgByNative('img').then(res => {
+                        img1.src = res.file
+                    })
+                } else if (data === 'camera') {
+                    //相机
+                    getImgByNative('camera').then(res => {
+                        img2.src = res.file
+                    })
+                } else if (data === 'h5CallNative') {
+                    getDataFromNative('getToken', function (data) {
+                        alert(data)
+                    })
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

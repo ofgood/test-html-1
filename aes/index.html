@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/crypto-js/crypto-js.js"></script>
+</head>
+<body>
+   
+    <script>
+        console.log(CryptoJS)
+         let content = CryptoJS.enc.Utf8.parse('123456789abc');
+         let secretKey = CryptoJS.enc.Utf8.parse('BOS_1238960_DOWN');
+         let encrypted = CryptoJS.AES.encrypt(content, secretKey, {
+                            mode: CryptoJS.mode.ECB,
+                            padding: CryptoJS.pad.Pkcs7
+                        });
+        console.log(encrypted);
+         let dealContent =  encrypted.toString();
+         console.log(dealContent);
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./area.js"></script>
+</head>
+<body>
+    <script>
+        let areaObj = areaList
+        let findCodeByName = (areaList,province,city,area) =>{
+            let data = [];
+            areaList.forEach(pr => {
+                if(pr.label === province) {
+                    data.push(pr.value)
+                    if(pr.children) {
+                        pr.children.forEach(ci => {
+                        if(ci.label === city) {
+                            data.push(ci.value)
+                            if(ci.children) {
+                                ci.children.forEach( are => {
+                                if(are.label === area) {
+                                    data.push(are.value)
+                                }
+                            })
+                        }
+                        }
+                    })
+                }
+                }
+            });
+            return data
+        }
+     let data = findCodeByName(areaObj, '北京市', '北京市', '东城区')
+     console.log(data)
+    </script>
+</body>
+</html>

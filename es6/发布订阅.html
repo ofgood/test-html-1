@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button name="张三" id="btn">按钮</button>
+    <script>
+        class Event {
+            constructor() {
+                this.events = {}
+            }
+            on(eName, fn) {
+                if (!this.events[eName]) {
+                    this.events[eName] = [fn]
+                } else {
+                    this.events[eName].push(fn)
+                }
+            }
+            emit(eName, params) {
+                this.events[eName] && this.events[eName].forEach(fn => fn(params));
+            }
+        }
+        const evt = new Event()
+        evt.on('getBtnName',getBtnName)
+        document.querySelector('#btn').onclick = function () {
+            evt.emit('getBtnName')
+            evt.emit('getBtnName')
+        }
+
+        function getBtnName() {
+           alert(document.querySelector('#btn').getAttribute('name'))
+        }
+    </script>
+</body>
+
+</html>

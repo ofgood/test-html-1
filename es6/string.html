@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<div id="changContent"></div>
+<body>
+    <script>
+        var str = '【变更项名称】：市场主体类型变更,【变更前内容】：有限责任公司(自然人投资或控股),【变更后内容】：有限责任公司(自然人独资);【变更项名称】：注册资本变更（注册资金、资金数额等变更）,【变更前内容】：200.000000,【变更后内容】：100.000000;【变更项名称】：负责人变更（法定代表人、负责人、首席代表、合伙事务执行人等变更）,【变更前内容】：尤林,【变更后内容】：刘秋红;【变更项名称】：投资人变更（包括出资额、出资方式、出资日期、投资人名称等）,【变更前内容】：刘秋红,尤林,【变更后内容】：刘秋红;'
+        var reg = /【变更项名称】/g
+        var result = str.replace(reg, '<br/>【变更项名称】')
+        console.log(result);
+        var domNode = document.querySelector('#changContent')
+        domNode.innerHTML = result
+    </script>
+</body>
+</html>
