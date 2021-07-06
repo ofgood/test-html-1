@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
-    <button name="张三" id="btn">按钮</button>
+    <button id="btn1">按钮</button>
+    <button id="btn2">解绑</button>
     <script>
-        class Event {
-            constructor() {
+        class  Event {
+            constructor () {
                 this.events = {}
             }
-            on(eName, fn) {
-                if (!this.events[eName]) {
-                    this.events[eName] = [fn]
+            on (evtName,fn) {
+                if (!this.events[evtName]) {
+                    this.events[evtName] = [fn]
                 } else {
-                    this.events[eName].push(fn)
+                    this.events[evtName].push(fn)
                 }
             }
-            emit(eName, params) {
-                this.events[eName] && this.events[eName].forEach(fn => fn(params));
+            emit (evtName, params) {
+                this.events[evtName] && this.events[evtName].forEach(fn => {
+                    fn && fn(params)
+                })
+            }
+            off (evtName, fnName) {
+                this.events[evtName] =  this.events[evtName].filter(item => item !== fnName)
+            }
+            once (evtName, fn) {
+                const wrap =  (params) => {
+                    fn(params)
+                    this.off(evtName,wrap)
+                }
+                this.on(evtName, wrap)
             }
         }
-        const evt = new Event()
-        evt.on('getBtnName',getBtnName)
-        document.querySelector('#btn').onclick = function () {
-            evt.emit('getBtnName')
-            evt.emit('getBtnName')
-        }
 
-        function getBtnName() {
-           alert(document.querySelector('#btn').getAttribute('name'))
+        const evt = new Event()
+        const getParams = (params) => {
+            console.log(params);
+        }
+        evt.once('tab',getParams)
+        evt.once('tab',getParams)
+        document.querySelector('#btn1').onclick = function () {
+            evt.emit('tab',{
+                a: 1,
+                b: 2
+            })
+        }
+        document.querySelector('#btn2').onclick = function () {
+            evt.off('tab',getParams)
         }
     </script>
 </body>
-
 </html>

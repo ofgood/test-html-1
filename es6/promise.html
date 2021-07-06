@@ -9,28 +9,30 @@
 </head>
 <body>
     <script>
-        const  timeOut = (callback) =>{
-            setTimeout(() => {
-                callback()
-            }, 200);
-        }
-        const otherRequest = () =>{
-            return  new Promise((resolve,reject) =>{
-               setTimeout(() => {
-                resolve(123123)
-               }, 200);
+        var a = 1;
+        console.log('a:', a)
+        var b = 2;
+        console.log('b:', b)
+        setTimeout(function task1(){
+            console.log('task1:', 5)
+            Promise.resolve(6).then(function microtask2(res){
+                console.log('microtask2:', res)
             })
-        }
-        const  myRequest = (params) =>{
-            return  new Promise((resolve, reject) => {
-                timeOut(() =>{
-                    otherRequest()
-                })
+        }, 0)
+        Promise.resolve(4).then(function microtask1(res){
+            console.log('microtask1:', res)
+        })
+        Promise.resolve(7).then(function microtask2(res){
+            console.log('microtask3:', res)
+        })
+        setTimeout(function task1(){
+            console.log('task4:', 8)
+            Promise.resolve(6).then(function microtask2(res){
+                console.log('microtask4:', res)
             })
-        }
-        myRequest('1')
-        myRequest('2')
-        myRequest('3')
+        }, 0)
+        var c = 3;
+        console.log('c:', c)
     </script>
 </body>
 </html>
